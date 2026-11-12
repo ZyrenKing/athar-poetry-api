@@ -5,13 +5,15 @@ from pydantic import BaseModel
 from models import engine
 from feature.admin import crud
 import os
+from dotenv import load_dotenv
 
-router = APIRouter(prefix="/admin", tags=["Admin"])
+load_dotenv()
 
-# مفتاح سري (يفضل وضعه في ملف .env)
 ADMIN_TOKEN = os.getenv(
     "ADMIN_TOKEN",
 )
+router = APIRouter(prefix="/admin", tags=["Admin"])
+
 class QueryRequest(BaseModel):
     sql: str
 
