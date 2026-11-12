@@ -3,6 +3,9 @@ from sqlmodel import SQLModel, Field, create_engine, Session
 from sqlalchemy import Column, Text, Integer
 from sqlalchemy.dialects.postgresql import ARRAY
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
 DB_URL = os.getenv(
     "DATABASE_URL",
 )
