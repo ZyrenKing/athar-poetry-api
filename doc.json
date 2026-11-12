@@ -1,0 +1,131 @@
+{
+    "api_name": "Athar Poetry API",
+    "version": "1.0.0",
+    "description": "A comprehensive REST API for Arabic poetry, providing access to thousands of poems, poets, and advanced statistics.",
+    "modules": {
+        "poems": {
+            "description": "The beating heart of the system. These endpoints allow browsing poems with filtering, and retrieving the full text of any poem.",
+            "endpoints": [
+                {
+                    "path": "/poems/",
+                    "method": "GET",
+                    "description": "List poems (verses excluded to reduce payload size) with filtering and pagination support.",
+                    "examples": [
+                        "/poems/?limit=5",
+                        "/poems/?poet_id=303&meter_id=9",
+                        "/poems/?topic_id=13&skip=10"
+                    ]
+                },
+                {
+                    "path": "/poems/{id}",
+                    "method": "GET",
+                    "description": "Get a single poem with all verses, plus poet name, era, meter, and topics.",
+                    "examples": [
+                        "/poems/4"
+                    ]
+                }
+            ]
+        },
+        "poets": {
+            "description": "Endpoints for searching poets and retrieving their details and statistics (e.g., poem count and most-used meters).",
+            "endpoints": [
+                {
+                    "path": "/poets/",
+                    "method": "GET",
+                    "description": "List poets with their total poem count, with optional search by name.",
+                    "examples": [
+                        "/poets/?limit=20",
+                        "/poets/?search=المتنبي"
+                    ]
+                },
+                {
+                    "path": "/poets/{id}",
+                    "method": "GET",
+                    "description": "Get a single poet's details plus quick stats (total poems and top 3 meters used).",
+                    "examples": [
+                        "/poets/303"
+                    ]
+                },
+                {
+                    "path": "/poets/{id}/poems",
+                    "method": "GET",
+                    "description": "List all poems by a specific poet (with the meter name for each poem).",
+                    "examples": [
+                        "/poets/303/poems?limit=50"
+                    ]
+                }
+            ]
+        },
+        "reference": {
+            "description": "Reference endpoints that return core lookup lists. Typically used to populate dropdowns in frontend applications.",
+            "endpoints": [
+                {
+                    "path": "/topics",
+                    "method": "GET",
+                    "description": "Get the list of all available poetry topics.",
+                    "examples": [
+                        "/topics"
+                    ]
+                },
+                {
+                    "path": "/meters",
+                    "method": "GET",
+                    "description": "Get the list of all available poetic meters.",
+                    "examples": [
+                        "/meters"
+                    ]
+                },
+                {
+                    "path": "/eras",
+                    "method": "GET",
+                    "description": "Get the list of all available historical eras.",
+                    "examples": [
+                        "/eras"
+                    ]
+                }
+            ]
+        },
+        "statistics": {
+            "description": "Advanced analytical endpoints that return pre-aggregated data, ready for chart rendering.",
+            "endpoints": [
+                {
+                    "path": "/stats/eras",
+                    "method": "GET",
+                    "description": "Distribution of poems across historical eras.",
+                    "examples": [
+                        "/stats/eras"
+                    ]
+                },
+                {
+                    "path": "/stats/meters",
+                    "method": "GET",
+                    "description": "Count of poems written in each poetic meter.",
+                    "examples": [
+                        "/stats/meters"
+                    ]
+                },
+                {
+                    "path": "/stats/top-poets",
+                    "method": "GET",
+                    "description": "List of the most prolific poets in the database.",
+                    "examples": [
+                        "/stats/top-poets?limit=5"
+                    ]
+                }
+            ]
+        },
+        "admin": {
+            "description": "Restricted admin endpoints. Require a security token in the request header. Used for custom queries not covered by other endpoints.",
+            "endpoints": [
+                {
+                    "path": "/admin/query",
+                    "method": "POST",
+                    "description": "Execute a raw SQL query (SELECT only). Requires an x-admin-token header.",
+                    "examples": [
+                        "Body: {\"sql\": \"SELECT name, era_id FROM poets LIMIT 5\"}"
+                    ]
+                }
+            ]
+        }
+    }
+}
